@@ -1,8 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './auth/authReducer';
+import expenseReducer from './expenses/expenseReducer';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { thunk } from 'redux-thunk';
 
-
-export const store = configureStore({
-   reducer: {}
+const rootReducer = combineReducers({
+   expense: expenseReducer,
+   auth: authReducer
 });
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;
