@@ -8,6 +8,7 @@ export const SignupForm = (props) => {
     email: "",
     password: "",
     confirmPassword: "",
+    monthlyLimit: 1000
   });
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -34,13 +35,24 @@ export const SignupForm = (props) => {
         email: signup.email,
         password: signup.password,
       }, navigate))
-      alert("Registration successful!");
-      setError('');
-      setSignup({
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
+      .then((data) => {
+        if(data.message){
+          setError(data.message)
+        }
+        else {
+          navigate('/dashboard');
+          setError('')
+          setSignup({
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+        }
+      })
+      .catch((error) => {
+        setError(error)
+      })
+      
     } catch (error) {
       console.error("Registration error:", error);
       setError("Registration failed. Please try again.");
@@ -57,7 +69,7 @@ export const SignupForm = (props) => {
         
         {/* Email Field */}
         <div>
-          <label htmlFor="email" className="block text-gray-600">Email</label>
+          <label htmlFor="email" className="block text-gray-600" data-required>Email</label>
           <input
             id="email"
             type="text"
@@ -97,25 +109,27 @@ export const SignupForm = (props) => {
           />
         </div>
 
+        <div>
+        <label htmlFor="monthlyLimit" className="block text-gray-600">Monthly Expense Limit</label>
+        <input
+          id="monthlyLimit"
+          type="number"
+          value={signup.monthlyLimit}
+          onChange={(e) => setMonthlyLimit(e.target.value)}
+          placeholder="Set Monthly Limit"
+          className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
         {/* Submit Button */}
         <div>
           <input
             type="submit"
             value="Register"
-            className="w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
+            className="w-full cursor-pointer py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
           />
         </div>
       </form>
-
-      {/* Google Connect Section */}
-      <div id="goog2" className="text-center mt-6">
-        <p className="text-gray-600">or Connect via</p>
-        <img
-          src="https://blog.hubspot.com/hubfs/image8-2.jpg"
-          alt="Google Connect"
-          className="mt-2 mx-auto w-32"
-        />
-      </div>
     </div>
   );
 };

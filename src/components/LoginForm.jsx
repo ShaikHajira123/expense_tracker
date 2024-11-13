@@ -6,16 +6,25 @@ import { useNavigate } from 'react-router-dom';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState("");
+
   
 
-  const { loading, error } = useSelector((state) => state);
+  const { loading } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ username, password }, navigate));
+    await dispatch(login({ username, password }, navigate))
+    .then((data) => {
+        navigate('/dashboard');
+        setError('');
+    })
+    .catch((error) => {
+      setError(error)
+    })
   };
 
 
@@ -31,6 +40,7 @@ const LoginForm = () => {
             <input
               type="text"
               value={username}
+              required
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your email"
               className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -41,6 +51,7 @@ const LoginForm = () => {
             <input
               type="password"
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

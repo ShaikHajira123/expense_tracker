@@ -14,11 +14,17 @@ export const signupUser = (userData, navigate) => async (dispatch) => {
   dispatch({ type: SIGNUP_REQUEST });
   try {
     const response = await axios.post('http://localhost:3000/register', userData);
+    if (response?.data?.user) {
+      localStorage.setItem('user', JSON.stringify(response?.data?.user));
+      localStorage.setItem('token', response.data?.token);
+      dispatch({ type: 'USER_AUTHENTICATED', payload: response.data?.token });
+    }
+
     dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
-    localStorage.setItem({ userId: response.data._id });
-    navigate('/expense');
+    return Promise.resolve(response.data?.user ? response.data.user : response.data);
   } catch (error) {
     dispatch({ type: SIGNUP_FAILURE, payload: error.message });
+    return Promise.reject(error.message);
   }
 };
 
@@ -27,11 +33,17 @@ export const login = (userData, navigate) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
     const response = await axios.post('http://localhost:3000/login', userData);
-    dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-    localStorage.setItem('userId', response.data._id );
-    navigate('/expense');
+    if (response?.data?.user) {
+      localStorage.setItem('user', JSON.stringify(response?.data?.user));
+      localStorage.setItem('token', response.data?.token);
+      dispatch({ type: 'USER_AUTHENTICATED', payload: response.data?.token });
+    }
+
+    dispatch({ type: LOGIN_SUCCESS, payload: response.data?.user });
+    return Promise.resolve(response.data?.user ? response.data.user : response.data);
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error.message });
+    return Promise.reject(error.message);
   }
 };
 
