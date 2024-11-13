@@ -50,16 +50,14 @@ function ExpenseForm({ existingExpense, onClose }) {
             }
         if (expense._id) {
             dispatch(updateExpense(expense._id, expense));
-            dispatch(fetchExpenses());
+            dispatch(fetchExpenses(filters));
             onClose();
         } else {
             dispatch(addExpense(expense))
             .then((data) => {
             if(data) {
                 setExpense({ category: '', amount: 0, date: '', description: '' });
-                dispatch(fetchExpenses()).then((data) => {
-                setUserExpenses(data);
-                });
+                dispatch(fetchExpenses(filters))
                 onClose();
             }
             })
