@@ -60,9 +60,9 @@ export const SignupForm = (props) => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 min-h-screen">
+    <div className="flex items-center justify-center bg-gray-100 min-h-screen " style={{ width: '1000px' }}>
       <form
-        className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg space-y-6"
+        className="w-full max-w-md bg-white p-4 rounded-lg shadow-lg space-y-6"
         onSubmit={register}
       >
         {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -77,7 +77,7 @@ export const SignupForm = (props) => {
             onChange={handleChange}
             required
             placeholder="Email"
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -91,7 +91,7 @@ export const SignupForm = (props) => {
             onChange={handleChange}
             required
             placeholder="Create password"
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -105,7 +105,7 @@ export const SignupForm = (props) => {
             onChange={handleChange}
             required
             placeholder="Re-type password"
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -117,7 +117,7 @@ export const SignupForm = (props) => {
           value={signup.monthlyLimit}
           onChange={(e) => setMonthlyLimit(e.target.value)}
           placeholder="Set Monthly Limit"
-          className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
